@@ -1,0 +1,46 @@
+.app-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-header {
+  margin-bottom: 20px;
+}
+
+.app-header h2 {
+  margin: 0 0 10px 0;
+  color: #323130;
+}
+
+.app-tabs {
+  display: flex;
+  border-bottom: 2px solid #edebe9;
+}
+
+.tab {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #605e5c;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  color: #323130;
+  background-color: #f3f2f1;
+}
+
+.tab.active {
+  color: #0078d4;
+  border-bottom-color: #0078d4;
+  font-weight: 600;
+}
+
+.app-body {
+  padding-top: 20px;
+}
+

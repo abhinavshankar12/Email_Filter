@@ -1,0 +1,410 @@
+[
+  {
+    "name": "Legitimate Newsletter",
+    "description": "Newsletter from a trusted source",
+    "message": {
+      "id": "test-msg-001",
+      "internetMessageId": "<newsletter-001@company.com>",
+      "conversationId": "conv-001",
+      "subject": "Weekly Newsletter - Product Updates",
+      "from": {
+        "name": "Company Newsletter",
+        "address": "newsletter@company.com"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T10:00:00Z",
+      "hasAttachments": false,
+      "importance": "normal",
+      "body": {
+        "contentType": "html",
+        "content": "<html><body><h1>Weekly Updates</h1><p>Here are this week's product updates...</p></body></html>"
+      }
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=pass dkim=pass dmarc=pass"
+      }
+    ],
+    "expectedDecision": "safe",
+    "expectedScoreRange": [0, 30]
+  },
+  {
+    "name": "Display Name Spoof",
+    "description": "Email with misleading display name",
+    "message": {
+      "id": "test-msg-002",
+      "internetMessageId": "<phish-002@malicious.tk>",
+      "conversationId": "conv-002",
+      "subject": "Important: Verify your Microsoft account",
+      "from": {
+        "name": "Microsoft Security Team <security@microsoft.com>",
+        "address": "no-reply@malicious.tk"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T11:00:00Z",
+      "hasAttachments": false,
+      "importance": "high",
+      "body": {
+        "contentType": "html",
+        "content": "<html><body><p>Your account requires immediate verification. Click here: http://bit.ly/fake-link</p></body></html>"
+      }
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=fail dkim=none dmarc=fail"
+      }
+    ],
+    "expectedDecision": "junk",
+    "expectedScoreRange": [80, 100]
+  },
+  {
+    "name": "Urgent Payment Request",
+    "description": "Phishing attempt with urgency and payment request",
+    "message": {
+      "id": "test-msg-003",
+      "internetMessageId": "<scam-003@fake-bank.com>",
+      "conversationId": "conv-003",
+      "subject": "URGENT: Your account will be closed",
+      "from": {
+        "name": "Bank Security",
+        "address": "security@fake-bank.com"
+      },
+      "replyTo": [
+        {
+          "name": "Support",
+          "address": "support@different-domain.xyz"
+        }
+      ],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T02:00:00Z",
+      "hasAttachments": false,
+      "importance": "high",
+      "body": {
+        "contentType": "text",
+        "content": "URGENT ACTION REQUIRED: Your account shows unusual activity. Update your payment information immediately or your account will be suspended. Wire transfer required."
+      }
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=softfail dkim=none dmarc=fail"
+      }
+    ],
+    "expectedDecision": "junk",
+    "expectedScoreRange": [85, 100]
+  },
+  {
+    "name": "Dangerous Attachment",
+    "description": "Email with executable attachment",
+    "message": {
+      "id": "test-msg-004",
+      "internetMessageId": "<malware-004@suspiciousdomain.ml>",
+      "conversationId": "conv-004",
+      "subject": "Invoice #12345",
+      "from": {
+        "name": "Vendor Services",
+        "address": "invoices@suspiciousdomain.ml"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T12:00:00Z",
+      "hasAttachments": true,
+      "importance": "normal",
+      "body": {
+        "contentType": "text",
+        "content": "Please find attached invoice. Open the file to view details."
+      },
+      "attachments": [
+        {
+          "name": "invoice_12345.pdf.exe",
+          "contentType": "application/x-msdownload",
+          "size": 2048576,
+          "isInline": false
+        }
+      ]
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=none dkim=none dmarc=none"
+      }
+    ],
+    "expectedDecision": "junk",
+    "expectedScoreRange": [75, 100]
+  },
+  {
+    "name": "Crypto Scam",
+    "description": "Cryptocurrency investment scam",
+    "message": {
+      "id": "test-msg-005",
+      "internetMessageId": "<crypto-005@scamsite.work>",
+      "conversationId": "conv-005",
+      "subject": "Limited time offer: Bitcoin investment opportunity",
+      "from": {
+        "name": "Crypto Investments",
+        "address": "invest@scamsite.work"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T13:00:00Z",
+      "hasAttachments": false,
+      "importance": "normal",
+      "body": {
+        "contentType": "html",
+        "content": "<html><body><p>Exclusive Bitcoin investment with guaranteed 500% returns! Send your crypto to our wallet now. Limited time offer expires today!</p></body></html>"
+      }
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=pass dkim=none dmarc=none"
+      }
+    ],
+    "expectedDecision": "warning",
+    "expectedScoreRange": [60, 79]
+  },
+  {
+    "name": "HR Benefits Phishing",
+    "description": "Fake HR benefits enrollment",
+    "message": {
+      "id": "test-msg-006",
+      "internetMessageId": "<hr-006@fake-company.ga>",
+      "conversationId": "conv-006",
+      "subject": "Action Required: Benefits Enrollment",
+      "from": {
+        "name": "HR Department",
+        "address": "hr@fake-company.ga"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T14:00:00Z",
+      "hasAttachments": false,
+      "importance": "high",
+      "body": {
+        "contentType": "text",
+        "content": "Your benefits enrollment period expires today. Update your direct deposit and 401k information immediately to avoid losing benefits."
+      }
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=fail dkim=fail dmarc=fail"
+      }
+    ],
+    "expectedDecision": "junk",
+    "expectedScoreRange": [70, 100]
+  },
+  {
+    "name": "Password Protected Zip",
+    "description": "Suspicious password-protected archive",
+    "message": {
+      "id": "test-msg-007",
+      "internetMessageId": "<zip-007@suspicious.cf>",
+      "conversationId": "conv-007",
+      "subject": "Confidential Documents",
+      "from": {
+        "name": "Legal Team",
+        "address": "legal@suspicious.cf"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T15:00:00Z",
+      "hasAttachments": true,
+      "importance": "normal",
+      "body": {
+        "contentType": "text",
+        "content": "Attached are confidential documents. Password: 12345"
+      },
+      "attachments": [
+        {
+          "name": "documents.zip",
+          "contentType": "application/zip",
+          "size": 1024000,
+          "isInline": false
+        }
+      ]
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=none dkim=none dmarc=none"
+      }
+    ],
+    "expectedDecision": "warning",
+    "expectedScoreRange": [55, 75]
+  },
+  {
+    "name": "URL Shortener Links",
+    "description": "Email with suspicious shortened URLs",
+    "message": {
+      "id": "test-msg-008",
+      "internetMessageId": "<links-008@shadysite.xyz>",
+      "conversationId": "conv-008",
+      "subject": "Check out this amazing offer!",
+      "from": {
+        "name": "Marketing Team",
+        "address": "promo@shadysite.xyz"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T16:00:00Z",
+      "hasAttachments": false,
+      "importance": "normal",
+      "body": {
+        "contentType": "html",
+        "content": "<html><body><p>Click here for exclusive deals: http://bit.ly/xyz123 and http://tinyurl.com/abc456</p></body></html>"
+      }
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=pass dkim=pass dmarc=pass"
+      }
+    ],
+    "expectedDecision": "warning",
+    "expectedScoreRange": [50, 70]
+  },
+  {
+    "name": "Legitimate Internal Thread",
+    "description": "Reply in existing conversation with colleague",
+    "message": {
+      "id": "test-msg-009",
+      "internetMessageId": "<thread-009@company.com>",
+      "conversationId": "conv-009",
+      "subject": "Re: Project Update",
+      "from": {
+        "name": "John Colleague",
+        "address": "john@company.com"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T17:00:00Z",
+      "hasAttachments": true,
+      "importance": "normal",
+      "body": {
+        "contentType": "text",
+        "content": "Here's the updated project document as discussed."
+      },
+      "attachments": [
+        {
+          "name": "project-update.docx",
+          "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "size": 51200,
+          "isInline": false
+        }
+      ]
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=pass dkim=pass dmarc=pass"
+      }
+    ],
+    "expectedDecision": "safe",
+    "expectedScoreRange": [0, 25]
+  },
+  {
+    "name": "Macro-Enabled Document",
+    "description": "Email with macro-enabled Office document",
+    "message": {
+      "id": "test-msg-010",
+      "internetMessageId": "<macro-010@untrusted.com>",
+      "conversationId": "conv-010",
+      "subject": "Important Document - Please Review",
+      "from": {
+        "name": "Unknown Sender",
+        "address": "sender@untrusted.com"
+      },
+      "replyTo": [],
+      "toRecipients": [
+        {
+          "name": "Test User",
+          "address": "test@example.com"
+        }
+      ],
+      "ccRecipients": [],
+      "receivedDateTime": "2025-10-27T18:00:00Z",
+      "hasAttachments": true,
+      "importance": "high",
+      "body": {
+        "contentType": "text",
+        "content": "Please enable macros and review the attached document."
+      },
+      "attachments": [
+        {
+          "name": "document.xlsm",
+          "contentType": "application/vnd.ms-excel.sheet.macroEnabled.12",
+          "size": 102400,
+          "isInline": false
+        }
+      ]
+    },
+    "headers": [
+      {
+        "name": "Authentication-Results",
+        "value": "spf=pass dkim=none dmarc=none"
+      }
+    ],
+    "expectedDecision": "warning",
+    "expectedScoreRange": [55, 75]
+  }
+]
+

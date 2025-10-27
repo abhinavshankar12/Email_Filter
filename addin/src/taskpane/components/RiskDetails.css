@@ -1,0 +1,36 @@
+.ml-rationale {
+  padding: 15px;
+  background-color: #f3f2f1;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.ml-score {
+  color: #605e5c;
+  font-size: 13px;
+}
+
+.points-positive {
+  color: #d13438;
+  font-weight: 600;
+}
+
+.points-negative {
+  color: #107c10;
+  font-weight: 600;
+}
+
+.score-breakdown {
+  padding: 15px;
+  background-color: #f3f2f1;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.score-breakdown p {
+  margin: 0;
+}
+
