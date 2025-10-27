@@ -1,0 +1,27 @@
+[
+  {
+    "domain": "*.tk",
+    "type": "block",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "*.ml",
+    "type": "block",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "*.ga",
+    "type": "block",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "*.cf",
+    "type": "block",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  }
+]
+

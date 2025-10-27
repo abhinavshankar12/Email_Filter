@@ -1,0 +1,155 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Invora Email Filter - AWS Deployment'
+
+Parameters:
+  GraphTenantId:
+    Type: String
+    Description: Microsoft Graph Tenant ID
+    NoEcho: false
+  
+  GraphClientId:
+    Type: String
+    Description: Microsoft Graph Client ID
+    NoEcho: false
+  
+  GraphClientSecret:
+    Type: String
+    Description: Microsoft Graph Client Secret
+    NoEcho: true
+
+Resources:
+  # Lambda Function
+  InvoraLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: invora-email-filter
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            return { statusCode: 200, body: 'Invora Email Filter' };
+          };
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          GRAPH_TENANT_ID: !Ref GraphTenantId
+          GRAPH_CLIENT_ID: !Ref GraphClientId
+          GRAPH_CLIENT_SECRET: !Ref GraphClientSecret
+          NODE_ENV: production
+      Timeout: 30
+      MemorySize: 512
+
+  # IAM Role for Lambda
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: InvoraLambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:*
+                  - sqs:*
+                  - logs:*
+                Resource: '*'
+
+  # API Gateway
+  InvoraApiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: invora-api
+      ProtocolType: HTTP
+
+  InvoraApiIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref InvoraApiGateway
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt InvoraLambdaFunction.Arn
+      PayloadFormatVersion: '2.0'
+
+  InvoraApiRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref InvoraApiGateway
+      RouteKey: '$default'
+      Target: !Join
+        - /
+        - - integrations
+          - !Ref InvoraApiIntegration
+
+  InvoraApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref InvoraApiGateway
+      StageName: '$default'
+      AutoDeploy: true
+
+  # Lambda Permission for API Gateway
+  ApiGatewayInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref InvoraLambdaFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${InvoraApiGateway}/*'
+
+  # DynamoDB Table for decisions
+  DecisionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: invora-decisions
+      AttributeDefinitions:
+        - AttributeName: messageId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: messageId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: userIdIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  # SQS Queue for message processing
+  MessageQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: invora-message-queue
+      VisibilityTimeout: 300
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway endpoint URL
+    Value: !GetAtt InvoraApiGateway.ApiEndpoint
+  
+  LambdaFunctionArn:
+    Description: Lambda Function ARN
+    Value: !GetAtt InvoraLambdaFunction.Arn
+  
+  DecisionsTableName:
+    Description: DynamoDB Decisions Table Name
+    Value: !Ref DecisionsTable
+

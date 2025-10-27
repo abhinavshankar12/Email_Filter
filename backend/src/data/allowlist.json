@@ -1,0 +1,51 @@
+[
+  {
+    "domain": "microsoft.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "*.microsoft.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "office365.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "*.office365.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "google.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "*.google.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "github.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  },
+  {
+    "domain": "linkedin.com",
+    "type": "allow",
+    "source": "seed",
+    "addedAt": "2025-01-01T00:00:00Z"
+  }
+]
+

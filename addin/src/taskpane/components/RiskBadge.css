@@ -1,0 +1,62 @@
+.risk-badge {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.risk-badge-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.risk-badge-score {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.risk-badge-label {
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.risk-badge-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.risk-badge-danger {
+  background-color: #fde7e9;
+  border-left: 4px solid #d13438;
+}
+
+.risk-badge-danger .risk-badge-score,
+.risk-badge-danger .risk-badge-label {
+  color: #d13438;
+}
+
+.risk-badge-warning {
+  background-color: #fff4ce;
+  border-left: 4px solid #ff8c00;
+}
+
+.risk-badge-warning .risk-badge-score,
+.risk-badge-warning .risk-badge-label {
+  color: #ff8c00;
+}
+
+.risk-badge-safe {
+  background-color: #dff6dd;
+  border-left: 4px solid #107c10;
+}
+
+.risk-badge-safe .risk-badge-score,
+.risk-badge-safe .risk-badge-label {
+  color: #107c10;
+}
+

@@ -1,0 +1,179 @@
+version: "1.0.0"
+rules:
+  # Authentication failures
+  - id: no_spf
+    name: No SPF Record
+    description: Email has no SPF authentication
+    points: 15
+    enabled: true
+
+  - id: spf_fail
+    name: SPF Failed
+    description: Email failed SPF authentication
+    points: 25
+    enabled: true
+
+  - id: dkim_fail
+    name: DKIM Failed
+    description: Email failed DKIM authentication
+    points: 20
+    enabled: true
+
+  - id: dmarc_fail
+    name: DMARC Failed
+    description: Email failed DMARC authentication
+    points: 25
+    enabled: true
+
+  # From address anomalies
+  - id: display_name_mismatch
+    name: Display Name Mismatch
+    description: Display name doesn't match email domain
+    points: 15
+    enabled: true
+
+  - id: reply_to_mismatch
+    name: Reply-To Mismatch
+    description: Reply-to address differs from sender
+    points: 10
+    enabled: true
+
+  - id: suspicious_homoglyphs
+    name: Suspicious Homoglyphs
+    description: Domain contains look-alike characters
+    points: 20
+    enabled: true
+
+  - id: newly_seen_domain
+    name: Newly Seen Domain
+    description: First time seeing this domain in 90 days
+    points: 10
+    enabled: true
+
+  # Domain reputation
+  - id: on_blocklist
+    name: On Blocklist
+    description: Sender domain is on blocklist
+    points: 50
+    enabled: true
+
+  - id: on_allowlist
+    name: On Allowlist
+    description: Sender domain is on allowlist
+    points: -40
+    enabled: true
+
+  # Link analysis
+  - id: url_shortener_present
+    name: URL Shortener Present
+    description: Email contains URL shortener links
+    points: 10
+    enabled: true
+
+  - id: suspicious_tld
+    name: Suspicious TLD
+    description: Email contains links with suspicious TLDs
+    points: 8
+    enabled: true
+
+  - id: internationalized_domain
+    name: Internationalized Domain
+    description: Email contains internationalized domain names
+    points: 5
+    enabled: true
+
+  - id: excessive_urls
+    name: Excessive URLs
+    description: Email contains more than 10 URLs
+    points: 7
+    enabled: true
+
+  # Attachment analysis
+  - id: dangerous_extension
+    name: Dangerous Extension
+    description: Attachment has dangerous file extension
+    points: 20
+    enabled: true
+
+  - id: macro_present
+    name: Macro Present
+    description: Office document contains macros
+    points: 15
+    enabled: true
+
+  - id: password_protected_archive
+    name: Password Protected Archive
+    description: Attachment is a password-protected archive
+    points: 12
+    enabled: true
+
+  - id: double_extension
+    name: Double Extension
+    description: Filename has double extension
+    points: 18
+    enabled: true
+
+  # Content analysis
+  - id: urgency_terms
+    name: Urgency Terms
+    description: Email contains urgency-inducing language
+    points: 12
+    enabled: true
+
+  - id: payment_request
+    name: Payment Request
+    description: Email requests payment or financial information
+    points: 15
+    enabled: true
+
+  - id: crypto_terms
+    name: Cryptocurrency Terms
+    description: Email mentions cryptocurrency
+    points: 10
+    enabled: true
+
+  - id: invoice_theme
+    name: Invoice Theme
+    description: Email appears to be an invoice or receipt
+    points: 8
+    enabled: true
+
+  - id: hr_benefits_theme
+    name: HR Benefits Theme
+    description: Email claims to be about HR or benefits
+    points: 10
+    enabled: true
+
+  # Thread context
+  - id: first_time_sender
+    name: First Time Sender
+    description: First email from this sender
+    points: 5
+    enabled: true
+
+  - id: low_relationship_score
+    name: Low Relationship Score
+    description: Little to no interaction history with sender
+    points: 8
+    enabled: true
+
+  # Time analysis
+  - id: unusual_send_time
+    name: Unusual Send Time
+    description: Email sent at unusual hour for sender's domain
+    points: 5
+    enabled: true
+
+  # Visual analysis
+  - id: html_only_message
+    name: HTML Only Message
+    description: Email is HTML only without plain text alternative
+    points: 8
+    enabled: true
+
+  - id: high_hidden_text_ratio
+    name: High Hidden Text Ratio
+    description: Email contains high ratio of hidden/invisible text
+    points: 15
+    enabled: true
+
